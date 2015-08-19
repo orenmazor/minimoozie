@@ -28,7 +28,7 @@
       nodes: new vis.DataSet(nodes),
       edges: new vis.DataSet(edges)
     };
-    var options = {layout:{ hierarchical:{direction: "UD"}}, edges: {smooth: {type: 'continuous'}}};
+    var options = {edges: {smooth: {roundness: 1, type: 'discrete'}}};
     var network = new vis.Network(container, data, options);
   })
 </script>
@@ -79,7 +79,6 @@
               <th>Ended At</th>
               <th>Status</th>
               <th>Name</th>
-              <th>History</th>
               <th>Logs</th>
               <th>Console</th>
             </tr>
@@ -99,7 +98,6 @@
               {{ end }}
               {{ $job.Status }}</span></td>
               <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
-              <td><a href="#">History</a></td>
               <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
