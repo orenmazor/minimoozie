@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Minimoozie - {{ .Title }}</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+           </button> <a class="navbar-brand" href="#"><img src="https://data.shopify.com/assets/data-logo-822bec14e758fa47c84a6aeb1f69c10aba2de8dbb4fa32299045d31020ba5ea3.svg" width="15px"></a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">Real Oozie</a>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+
+      {{ range $index, $action := .Job.Actions }}
+      {{ if eq $action.Status "SUCCEEDED" }}
+      <div class="panel panel-success">
+        {{ else }} 
+      <div class="panel panel-info">
+        {{ end }}
+
+        <div class="panel-heading">
+          <h3 class="panel-title"><a href="http://hue.data.shopify.com/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }}</a></h3>
+        </div>
+        <div class="panel-body">
+          {{ $action.Config }}
+        </div>
+        <div class="panel-footer">
+          <a href="http://{{ $action.TrackerURI }}">JobTracker</a>
+        </div>
+      </div>
+      {{ end }}
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -7,14 +7,28 @@ import "net/http"
 import "encoding/json"
 import "encoding/xml"
 
+type OozieAction struct {
+	Id         string `json:"id"`
+	ExternalId string `json:"externalid"`
+	Name       string `json:"name"`
+	Type       string `json:"type"`
+	StartTime  string `json:"starttime"`
+	EndTime    string `json:"endtime"`
+	Status     string `json:"externalstatus"`
+	TrackerURI string `json:"trackeruri"`
+	ConsoleURI string `json:"consoleuri"`
+	Config     string `json:"conf"`
+}
+
 type OozieJob struct {
-	Coordinator string `json:"parentId"`
-	Name        string `json:"appName"`
-	Id          string `json:"id"`
-	Status      string `json:"status"`
-	StartTime   string `json:"startTime"`
-	EndTime     string `json:"endTime"`
-	ConsoleURL  string `json:"consoleurl"`
+	Coordinator string        `json:"parentId"`
+	Name        string        `json:"appName"`
+	Id          string        `json:"id"`
+	Status      string        `json:"status"`
+	StartTime   string        `json:"startTime"`
+	EndTime     string        `json:"endTime"`
+	ConsoleURL  string        `json:"consoleurl"`
+	Actions     []OozieAction `json:"actions"`
 }
 
 type OozieResultSet struct {
@@ -70,6 +84,22 @@ func FlowDefinition(flowId string) WorkflowDAG {
 	check(err)
 
 	return dag
+}
+
+func FindJobById(flowId string) OozieJob {
+	oozieURL := os.Getenv("OOZIE_URL")
+	fullURL := fmt.Sprintf("%s/oozie/v2/job/%s?show=info&timezone=GMT", oozieURL, flowId)
+	log.Info(fullURL)
+	resp, err := http.Get(fullURL)
+	check(err)
+	defer resp.Body.Close()
+
+	result := new(OozieJob)
+	err = json.NewDecoder(resp.Body).Decode(result)
+	check(err)
+
+	return *result
+
 }
 
 func getJobs(filter string) []OozieJob {
