@@ -1,0 +1,6 @@
+itself 'github.com/orenmazor/minimoozie'
+
+autodetect
+
+gom "github.com/Sirupsen/logrus"
+gom "github.com/gorilla/mux"

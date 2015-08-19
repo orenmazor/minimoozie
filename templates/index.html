@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Minimoozie - {{ .Title }}</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+           </button> <a class="navbar-brand" href="#"><img src="https://data.shopify.com/assets/data-logo-822bec14e758fa47c84a6aeb1f69c10aba2de8dbb4fa32299045d31020ba5ea3.svg" width="15px"></a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">Real Oozie</a>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Currently Running</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Started At</th>
+              <th>Name</th>
+              <th>History</th>
+              <th>Logs</th>
+              <th>Console</th>
+            </tr>
+            {{ range $index, $job := .Jobs.running }}
+            <tr>
+              <td>{{ $index }} </td>
+              <td>{{ $job.StartTime }}</td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="#">History</a></td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
+            </tr>
+            {{ end }}
+          </table>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Recently Failed</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Started At</th>
+              <th>Ended At</th>
+              <th>Name</th>
+              <th>History</th>
+              <th>Logs</th>
+              <th>Console</th>
+            </tr>
+            {{ range $index, $job := .Jobs.failed }}
+            <tr>
+              <td>{{ $index }} </td>
+              <td>{{ $job.StartTime }} </td>
+              <td>{{ $job.EndTime }} </td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="#">History</a></td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
+            </tr>
+            {{ end }}
+          </table>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Recent Successes</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Started At</th>
+              <th>Ended At</th>
+              <th>Name</th>
+              <th>History</th>
+              <th>Logs</th>
+              <th>Console</th>
+            </tr>
+            {{ range $index, $job := .Jobs.successful }}
+            <tr>
+              <td>{{ $index }} </td>
+              <td>{{ $job.StartTime }} </td>
+              <td>{{ $job.EndTime }} </td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="#">History</a></td>
+              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
+            </tr>
+            {{ end }}
+          </table>
+        </div>
+      </div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
