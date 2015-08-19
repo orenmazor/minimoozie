@@ -32,6 +32,10 @@ func FailedJobs() []OozieJob {
 	return getJobs("status%3DKILLED")
 }
 
+func FlowHistory(flowName string) []OozieJob {
+	return getJobs(fmt.Sprintf("name%%3D%s", flowName))
+}
+
 func getJobs(filter string) []OozieJob {
 	oozieURL := os.Getenv("OOZIE_URL")
 	fullURL := fmt.Sprintf("%s/oozie/v1/jobs?filter=%s", oozieURL, filter)
