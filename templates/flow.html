@@ -8,7 +8,30 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/vis.min.css">
+<script src="/vis.min.js"></script>
+<script>
+  $(function() {
+    var nodes = [{"id": "kill", "label": "kill", "level": {{ .Dag.Actions | len }}}]
+    var edges = []
+
+    {{ range $index, $Node := .Dag.Actions }}
+    nodes.push({ "id": {{$Node.Name}}, "label": {{ $Node.Name }}, "level": {{ $index}}})
+      edges.push({ "from": {{$Node.Name}}, "to": {{ $Node.Ok.To }}, "arrows": "to", "color":"green"})
+      edges.push({ "from": {{$Node.Name}}, "to": {{ $Node.Error.To }}, "arrows": "to", "color":"red"})
+    {{ end }}
+
+    var container = document.getElementById('visualizationCanvas');
+    var data = {
+      nodes: new vis.DataSet(nodes),
+      edges: new vis.DataSet(edges)
+    };
+    var options = {layout:{ hierarchical:{direction: "UD"}}, edges: {smooth: {type: 'continuous'}}};
+    var network = new vis.Network(container, data, options);
+  })
+</script>
   </head>
   <body>
 
@@ -32,6 +55,18 @@
 				</div>
 				
 			</nav>
+      <!-- viz -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Flow</h3>
+        </div>
+        <div class="panel-body">
+          <div id="visualizationCanvas">
+          </div>
+        </div>
+      </div>
+
+      <!-- list -->
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">{{ .Title }}</h3>

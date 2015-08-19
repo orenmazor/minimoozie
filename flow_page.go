@@ -6,6 +6,7 @@ import "github.com/gorilla/mux"
 type FlowPage struct {
 	Title string
 	Flows []OozieJob
+	Dag   WorkflowDAG
 }
 
 func FlowHandler(response http.ResponseWriter, request *http.Request) {
@@ -14,6 +15,7 @@ func FlowHandler(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "text/html")
 
 	flow_history := FlowHistory(flow)
-	context := FlowPage{Title: flow, Flows: flow_history}
+	dag := FlowDefinition(flow_history[0].Id)
+	context := FlowPage{Title: flow, Flows: flow_history, Dag: dag}
 	templates.ExecuteTemplate(response, "flow.html", context)
 }

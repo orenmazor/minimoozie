@@ -1,9 +1,11 @@
 package main
 
+import "io/ioutil"
 import "os"
 import "fmt"
 import "net/http"
 import "encoding/json"
+import "encoding/xml"
 
 type OozieJob struct {
 	Coordinator string `json:"parentId"`
@@ -20,6 +22,22 @@ type OozieResultSet struct {
 	Workflows []OozieJob `json:"workflows"`
 }
 
+type Edge struct {
+	To string `xml:"to,attr"`
+}
+
+type Node struct {
+	To    string `xml:"to,attr"`
+	Name  string `xml:"name,attr"`
+	Ok    Edge   `xml:"ok"`
+	Error Edge   `xml:"error"`
+}
+
+type WorkflowDAG struct {
+	Start   Node   `xml:"start"`
+	Actions []Node `xml:"action"`
+}
+
 func RunningJobs() []OozieJob {
 	return getJobs("status%3DRUNNING")
 }
@@ -34,6 +52,24 @@ func FailedJobs() []OozieJob {
 
 func FlowHistory(flowName string) []OozieJob {
 	return getJobs(fmt.Sprintf("name%%3D%s", flowName))
+}
+
+func FlowDefinition(flowId string) WorkflowDAG {
+	oozieURL := os.Getenv("OOZIE_URL")
+	fullURL := fmt.Sprintf("%s/oozie/v1/job/%s?show=definition", oozieURL, flowId)
+	log.Info(fullURL)
+	resp, err := http.Get(fullURL)
+	check(err)
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	check(err)
+
+	var dag WorkflowDAG
+	err = xml.Unmarshal(body, &dag)
+	check(err)
+
+	return dag
 }
 
 func getJobs(filter string) []OozieJob {
