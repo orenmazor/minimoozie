@@ -2,8 +2,8 @@
 require 'capistrano/setup'
 
 # Include default deployment tasks
-require 'capistrano/ejson'
 require 'capistrano/deploy'
+require 'capistrano/ejson'
 
 # Include tasks from other gems included in your Gemfile
 #
