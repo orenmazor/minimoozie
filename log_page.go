@@ -11,6 +11,8 @@ type LogPage struct {
 }
 
 func LogHandler(response http.ResponseWriter, request *http.Request) {
+	Authorize(response, request)
+
 	vars := mux.Vars(request)
 	id := vars["id"]
 	job := FindJobById(id)

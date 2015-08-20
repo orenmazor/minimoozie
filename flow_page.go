@@ -11,6 +11,8 @@ type FlowPage struct {
 }
 
 func FlowHandler(response http.ResponseWriter, request *http.Request) {
+	Authorize(response, request)
+
 	vars := mux.Vars(request)
 	flow := vars["name"]
 	response.Header().Set("Content-type", "text/html")
