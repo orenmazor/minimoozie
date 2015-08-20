@@ -5,6 +5,11 @@
 - Mobile friendly
 - Read Only (for now)
 
+# Run
+
+`gondler install`
+`gondler exec go run *.go`
+
 # TODO
 
 - [ ] Oauth UI
