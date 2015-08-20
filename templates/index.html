@@ -53,8 +53,8 @@
               <td>{{ $index }} </td>
               <td>{{ $job.StartTime }}</td>
               <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a></td>
-              <td><a href="#">History</a></td>
-              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="/flow/{{$job.Name}}">History</a></td>
+              <td><a href="/all_logs/{{$job.Id}}">Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}
@@ -83,8 +83,8 @@
               <td>{{ $job.StartTime }} </td>
               <td>{{ $job.EndTime }} </td>
               <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
-              <td><a href="#">History</a></td>
-              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="/flow/{{$job.Name}}">History</a></td>
+              <td><a href="/all_logs/{{$job.Id}}">Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}
@@ -113,8 +113,8 @@
               <td>{{ $job.StartTime }} </td>
               <td>{{ $job.EndTime }} </td>
               <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
-              <td><a href="#">History</a></td>
-              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="/flow/{{$job.Name}}">History</a></td>
+              <td><a href="/all_logs/{{$job.Id}}">Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}
