@@ -1,3 +1,4 @@
+{{ $conf := .Conf }}
 <html>
   <head>
     <title>Minimoozie - {{ .Title }}</title>
@@ -49,7 +50,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="#">Real Oozie</a>
+            <a href="http://{{ $conf.OozieURL }}/oozie">Real Oozie</a>
 						</li>
 					</ul>
 				</div>
@@ -97,7 +98,7 @@
               <td><span class="label label-warning">
               {{ end }}
               {{ $job.Status }}</span></td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+          <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
               <td><a href="/all_logs/{{ $job.Id }}">HUE Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>

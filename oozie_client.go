@@ -1,7 +1,6 @@
 package main
 
 import "io/ioutil"
-import "os"
 import "fmt"
 import "net/http"
 import "encoding/json"
@@ -69,7 +68,7 @@ func FlowHistory(flowName string) []OozieJob {
 }
 
 func FlowDefinition(flowId string) WorkflowDAG {
-	oozieURL := os.Getenv("OOZIE_URL")
+	oozieURL := Conf.OozieURL
 	fullURL := fmt.Sprintf("%s/oozie/v1/job/%s?show=definition", oozieURL, flowId)
 	log.Info(fullURL)
 	resp, err := http.Get(fullURL)
@@ -87,7 +86,7 @@ func FlowDefinition(flowId string) WorkflowDAG {
 }
 
 func FindJobById(flowId string) OozieJob {
-	oozieURL := os.Getenv("OOZIE_URL")
+	oozieURL := Conf.OozieURL
 	fullURL := fmt.Sprintf("%s/oozie/v2/job/%s?show=info&timezone=GMT", oozieURL, flowId)
 	log.Info(fullURL)
 	resp, err := http.Get(fullURL)
@@ -103,7 +102,7 @@ func FindJobById(flowId string) OozieJob {
 }
 
 func getJobs(filter string) []OozieJob {
-	oozieURL := os.Getenv("OOZIE_URL")
+	oozieURL := Conf.OozieURL
 	fullURL := fmt.Sprintf("%s/oozie/v1/jobs?filter=%s", oozieURL, filter)
 	log.Info(fullURL)
 	resp, err := http.Get(fullURL)

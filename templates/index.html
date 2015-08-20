@@ -1,3 +1,5 @@
+{{ $conf := .Conf }}
+
 <html>
   <head>
     <title>Minimoozie - {{ .Title }}</title>
@@ -26,7 +28,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="#">Real Oozie</a>
+            <a href="http://{{ .Conf.OozieURL }}/oozie">Real Oozie</a>
 						</li>
 					</ul>
 				</div>
@@ -50,9 +52,9 @@
             <tr>
               <td>{{ $index }} </td>
               <td>{{ $job.StartTime }}</td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a></td>
               <td><a href="#">History</a></td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}
@@ -80,9 +82,9 @@
               <td>{{ $index }} </td>
               <td>{{ $job.StartTime }} </td>
               <td>{{ $job.EndTime }} </td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
               <td><a href="#">History</a></td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}
@@ -110,9 +112,9 @@
               <td>{{ $index }} </td>
               <td>{{ $job.StartTime }} </td>
               <td>{{ $job.EndTime }} </td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
               <td><a href="#">History</a></td>
-              <td><a href="https://hue.data.shopify.com/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
+              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">HUE Logs</a></td>
               <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
             </tr>
             {{ end }}

@@ -7,6 +7,7 @@ type FlowPage struct {
 	Title string
 	Flows []OozieJob
 	Dag   WorkflowDAG
+	Conf  Config
 }
 
 func FlowHandler(response http.ResponseWriter, request *http.Request) {
@@ -16,6 +17,6 @@ func FlowHandler(response http.ResponseWriter, request *http.Request) {
 
 	flow_history := FlowHistory(flow)
 	dag := FlowDefinition(flow_history[0].Id)
-	context := FlowPage{Title: flow, Flows: flow_history, Dag: dag}
+	context := FlowPage{Conf: *Conf, Title: flow, Flows: flow_history, Dag: dag}
 	templates.ExecuteTemplate(response, "flow.html", context)
 }

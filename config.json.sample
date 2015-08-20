@@ -1,0 +1,4 @@
+{
+  "oozie_url": "localhost:11000",
+  "hue": "if you have it, for now, but this is going away"
+}
