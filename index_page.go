@@ -12,13 +12,13 @@ type Page struct {
 }
 
 func IndexHandler(response http.ResponseWriter, request *http.Request) {
-	Authorize(response, request)
-
-	response.Header().Set("Content-type", "text/html")
-	jobs := make(map[string][]OozieJob)
-	jobs["running"] = RunningJobs()
-	jobs["failed"] = FailedJobs()
-	jobs["successful"] = SuccessfulJobs()
-	context := Page{Conf: *Conf, Title: "Home", Jobs: jobs}
-	templates.ExecuteTemplate(response, "index.html", context)
+	if Authorize(response, request) {
+		response.Header().Set("Content-type", "text/html")
+		jobs := make(map[string][]OozieJob)
+		jobs["running"] = RunningJobs()
+		jobs["failed"] = FailedJobs()
+		jobs["successful"] = SuccessfulJobs()
+		context := Page{Conf: *Conf, Title: "Home", Jobs: jobs}
+		templates.ExecuteTemplate(response, "index.html", context)
+	}
 }

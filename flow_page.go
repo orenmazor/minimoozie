@@ -11,14 +11,15 @@ type FlowPage struct {
 }
 
 func FlowHandler(response http.ResponseWriter, request *http.Request) {
-	Authorize(response, request)
+	if Authorize(response, request) {
 
-	vars := mux.Vars(request)
-	flow := vars["name"]
-	response.Header().Set("Content-type", "text/html")
+		vars := mux.Vars(request)
+		flow := vars["name"]
+		response.Header().Set("Content-type", "text/html")
 
-	flow_history := FlowHistory(flow)
-	dag := FlowDefinition(flow_history[0].Id)
-	context := FlowPage{Conf: *Conf, Title: flow, Flows: flow_history, Dag: dag}
-	templates.ExecuteTemplate(response, "flow.html", context)
+		flow_history := FlowHistory(flow)
+		dag := FlowDefinition(flow_history[0].Id)
+		context := FlowPage{Conf: *Conf, Title: flow, Flows: flow_history, Dag: dag}
+		templates.ExecuteTemplate(response, "flow.html", context)
+	}
 }

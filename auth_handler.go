@@ -17,7 +17,6 @@ var store = sessions.NewCookieStore(uuid.NewV4().Bytes())
 func IsAuthorized(response http.ResponseWriter, request *http.Request) bool {
 	session, err := store.Get(request, "minimoozie")
 	check(err)
-	log.Info(session)
 
 	if session.IsNew {
 		return false
@@ -34,7 +33,7 @@ func IsAuthorized(response http.ResponseWriter, request *http.Request) bool {
 	return false
 }
 
-func Authorize(response http.ResponseWriter, request *http.Request) {
+func Authorize(response http.ResponseWriter, request *http.Request) bool {
 	if !IsAuthorized(response, request) {
 		oauthconf := &oauth2.Config{
 			ClientID:     Conf.OauthClientId,
@@ -45,7 +44,9 @@ func Authorize(response http.ResponseWriter, request *http.Request) {
 		}
 		url := oauthconf.AuthCodeURL("state")
 		http.Redirect(response, request, url, http.StatusFound)
+		return false
 	}
+	return true
 }
 
 func OauthCallbackHandler(response http.ResponseWriter, request *http.Request) {
