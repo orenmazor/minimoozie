@@ -15,11 +15,22 @@
 <script src="/vis.min.js"></script>
 <script>
   $(function() {
-    var nodes = [{"id": "kill", "label": "kill", "level": {{ .Dag.Actions | len }}}]
+    var nodes = [{"id": "kill", "label": "kill", "level": 2}]
     var edges = []
 
     {{ range $index, $Node := .Dag.Actions }}
-    nodes.push({ "id": {{$Node.Name}}, "label": {{ $Node.Name }}, "level": {{ $index}}})
+    var currentLevel = 0;
+    if({{$Node.Name}}.indexOf("build") != -1 ){
+      currentLevel = 1;
+    } else if({{$Node.Name}}.indexOf("resolve") != -1) {
+      currentLevel = 2;
+    } else if({{$Node.Name}}.indexOf("-flow") != -1 ){
+      currentLevel = 0;
+      } else if({{$Node.Name}}.indexOf("-load") != -1){
+      currentLevel = 3
+    }
+
+    nodes.push({ "id": {{$Node.Name}}, "label": {{ $Node.Name }}, "level": currentLevel})
       edges.push({ "from": {{$Node.Name}}, "to": {{ $Node.Ok.To }}, "arrows": "to", "color":"green"})
       edges.push({ "from": {{$Node.Name}}, "to": {{ $Node.Error.To }}, "arrows": "to", "color":"red"})
     {{ end }}
@@ -29,7 +40,7 @@
       nodes: new vis.DataSet(nodes),
       edges: new vis.DataSet(edges)
     };
-    var options = {edges: {smooth: {roundness: 1, type: 'discrete'}}};
+    var options = { height: "50%", width:"50%", physics: {hierarchicalRepulsion: {springConstant: 0, avoidOverlap: 1,nodeDistance: 200}}, nodes:{shape: 'box'}, layout: {hierarchical: {sortMethod: "directed"}}, edges: {smooth: {roundness: 1, type: 'discrete'}}};
     var network = new vis.Network(container, data, options);
   })
 </script>
@@ -62,7 +73,7 @@
           <h3 class="panel-title">Flow</h3>
         </div>
         <div class="panel-body">
-          <div id="visualizationCanvas">
+          <div id="visualizationCanvas" style="border: 1px solid black">
           </div>
         </div>
       </div>
