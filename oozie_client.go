@@ -7,16 +7,17 @@ import "encoding/json"
 import "encoding/xml"
 
 type OozieAction struct {
-	Id         string `json:"id"`
-	ExternalId string `json:"externalid"`
-	Name       string `json:"name"`
-	Type       string `json:"type"`
-	StartTime  string `json:"starttime"`
-	EndTime    string `json:"endtime"`
-	Status     string `json:"externalstatus"`
-	TrackerURI string `json:"trackeruri"`
-	ConsoleURI string `json:"consoleuri"`
-	Config     string `json:"conf"`
+	Id           string `json:"id"`
+	ExternalId   string `json:"externalid"`
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+	StartTime    string `json:"starttime"`
+	EndTime      string `json:"endtime"`
+	Status       string `json:"externalstatus"`
+	TrackerURI   string `json:"trackeruri"`
+	ConsoleUrl   string `json:"consoleurl"`
+	Config       string `json:"conf"`
+	ErrorMessage string `json:"errormessage"`
 }
 
 type OozieJob struct {

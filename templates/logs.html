@@ -38,27 +38,42 @@
 			</nav>
 
       {{ range $index, $action := .Job.Actions }}
-      {{ if eq $action.Status "SUCCEEDED" }}
+      {{ if eq $action.Status "OK" }}
       <div class="panel panel-success">
-        {{ else }} 
+        {{ else if eq $action.Status "SUCCEEDED" }} 
+      <div class="panel panel-success">
+        {{ else if eq $action.Status "ERROR" }} 
+      <div class="panel panel-danger">
+        {{ else if eq $action.Status "FAILED/KILLED" }} 
+      <div class="panel panel-danger">
+        {{ else }}
       <div class="panel panel-info">
         {{ end }}
 
         <div class="panel-heading">
           <h3 class="panel-title">
              <span class="label label-info">{{ $action.Type }}</span>&nbsp;&nbsp;&nbsp;
-             {{ if eq $action.Type "sub-workflow" }}
-             <a target="_new" href="/all_logs/{{ $action.ExternalId }}">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+             {{ if $action.ExternalId }}
+               {{ if eq $action.Type "sub-workflow" }}
+               <a target="_new" href="/all_logs/{{ $action.ExternalId }}">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+               {{ else }}
+               <a target="_new" href="http://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+               {{ end }}
              {{ else }}
-             <a target="_new" href="http://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+               <a target="_new" href="#">{{ $action.Name }}</a>
              {{ end }}
           </h3>
         </div>
         <div class="panel-body">
           <pre class="prettyprint">{{ $action.Config }}</pre>
+          {{ if $action.ErrorMessage }}
+          <pre class="prettyprint">{{ $action.ErrorMessage }}</pre>
+          {{ end }}
         </div>
         <div class="panel-footer">
-          <a href="http://{{ $action.TrackerURI }}">JobTracker</a>
+          {{ if $action.ConsoleUrl }}
+          <a href="{{ $action.ConsoleUrl }}">JobTracker</a>
+          {{ end }}
         </div>
       </div>
       {{ end }}
