@@ -70,7 +70,7 @@
           {{ range $index, $job := .Jobs.failed }}
           <div class="panel panel-danger">
             <div class="panel-heading">
-              <h3 class="panel-title"><a href="/all_logs/{{ $job.Id }}">{{ $job.Name }}</a><span class="pull-right">Failed at: {{ $job.EndTime }}</span></h3>
+              <h3 class="panel-title"><a href="/flow/{{ $job.Name }}">{{ $job.Name }}</a><span class="pull-right">Failed at: {{ $job.EndTime }}</span></h3>
             </div>
             <div class="panel-body">
               <table class="table">
@@ -83,7 +83,11 @@
                     {{ range $index, $action := $job.Errors }} 
                         <tr>
                           <td>{{ $action.EndTime }}</td>
-                          <td>{{ $action.Name }}</td>
+                          {{ if eq $action.Type "sub-workflow" }}
+                              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $action.ExternalId }}">{{ $action.Name }}</a></td>
+                          {{ else }}
+                              <td><a href="https://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }}</a></td>
+                          {{ end }}
                           <td>{{ $job.User }} </td>
                           <td>{{ $action.ErrorMessage }}</td>
                         </tr>
