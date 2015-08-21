@@ -75,10 +75,10 @@
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th>Time</th>
-                  <th>Action Name</th>
-                  <th>Submitted</th>
-                  <th>Error Message</th>
+                  <th class="col-sm-2">Time</th>
+                  <th class="col-sm-2">Action Name</th>
+                  <th class="col-sm-2">Submitted</th>
+                  <th class="col-sm-6">Error Message</th>
                 </tr>
                     {{ range $index, $action := $job.Errors }} 
                         <tr>
