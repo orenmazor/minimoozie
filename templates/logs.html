@@ -48,9 +48,9 @@
           <h3 class="panel-title">
              <span class="label label-info">{{ $action.Type }}</span>&nbsp;&nbsp;&nbsp;
              {{ if eq $action.Type "sub-workflow" }}
-             <a href="/all_logs/{{ $action.ExternalId }}">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+             <a target="_new" href="/all_logs/{{ $action.ExternalId }}">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
              {{ else }}
-             <a href="http://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+             <a target="_new" href="http://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
              {{ end }}
           </h3>
         </div>

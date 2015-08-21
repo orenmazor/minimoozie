@@ -40,7 +40,7 @@
       nodes: new vis.DataSet(nodes),
       edges: new vis.DataSet(edges)
     };
-    var options = { height: "50%", width:"50%", physics: {hierarchicalRepulsion: {springConstant: 0, avoidOverlap: 1,nodeDistance: 200}}, nodes:{shape: 'box'}, layout: {hierarchical: {sortMethod: "directed"}}, edges: {smooth: {roundness: 1, type: 'discrete'}}};
+    var options = { height: "50%", width:"100%", physics: {hierarchicalRepulsion: {springConstant: 0, avoidOverlap: 1,nodeDistance: 200}}, nodes:{shape: 'box'}, layout: {hierarchical: {sortMethod: "directed"}}, edges: {smooth: {roundness: 1, type: 'discrete'}}};
     var network = new vis.Network(container, data, options);
   })
 </script>
