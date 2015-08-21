@@ -6,31 +6,6 @@ import "net/http"
 import "encoding/json"
 import "encoding/xml"
 
-type OozieAction struct {
-	Id           string `json:"id"`
-	ExternalId   string `json:"externalid"`
-	Name         string `json:"name"`
-	Type         string `json:"type"`
-	StartTime    string `json:"starttime"`
-	EndTime      string `json:"endtime"`
-	Status       string `json:"externalstatus"`
-	TrackerURI   string `json:"trackeruri"`
-	ConsoleUrl   string `json:"consoleurl"`
-	Config       string `json:"conf"`
-	ErrorMessage string `json:"errormessage"`
-}
-
-type OozieJob struct {
-	Coordinator string        `json:"parentId"`
-	Name        string        `json:"appName"`
-	Id          string        `json:"id"`
-	Status      string        `json:"status"`
-	StartTime   string        `json:"startTime"`
-	EndTime     string        `json:"endTime"`
-	ConsoleURL  string        `json:"consoleurl"`
-	Actions     []OozieAction `json:"actions"`
-}
-
 type OozieResultSet struct {
 	Total     int        `json:"total"`
 	Workflows []OozieJob `json:"workflows"`
@@ -61,7 +36,13 @@ func SuccessfulJobs() []OozieJob {
 }
 
 func FailedJobs() []OozieJob {
-	return getJobs("status%3DKILLED")
+	//not sure about this...submits too many requests for the front page, maybe?
+	jobs := getJobs("status%3DKILLED&len=10")
+	detailedJobs := make([]OozieJob, len(jobs))
+	for index, job := range jobs {
+		detailedJobs[index] = FindJobById(job.Id)
+	}
+	return detailedJobs
 }
 
 func FlowHistory(flowName string) []OozieJob {

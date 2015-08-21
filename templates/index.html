@@ -67,28 +67,31 @@
           <h3 class="panel-title">Recently Failed</h3>
         </div>
         <div class="panel-body">
-          <table class="table">
-            <tr>
-              <th>Id</th>
-              <th>Started At</th>
-              <th>Ended At</th>
-              <th>Name</th>
-              <th>History</th>
-              <th>Logs</th>
-              <th>Console</th>
-            </tr>
-            {{ range $index, $job := .Jobs.failed }}
-            <tr>
-              <td>{{ $index }} </td>
-              <td>{{ $job.StartTime }} </td>
-              <td>{{ $job.EndTime }} </td>
-              <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $job.Id }}">{{ $job.Name }}</a> </td>
-              <td><a href="/flow/{{$job.Name}}">History</a></td>
-              <td><a href="/all_logs/{{$job.Id}}">Logs</a></td>
-              <td><a href="{{ $job.ConsoleURL }}">Oozie Console</a></td>
-            </tr>
-            {{ end }}
-          </table>
+          {{ range $index, $job := .Jobs.failed }}
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title"><a href="/all_logs/{{ $job.Id }}">{{ $job.Name }}</a><span class="pull-right">Failed at: {{ $job.EndTime }}</span></h3>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <th>Time</th>
+                  <th>Action Name</th>
+                  <th>Submitted</th>
+                  <th>Error Message</th>
+                </tr>
+                    {{ range $index, $action := $job.Errors }} 
+                        <tr>
+                          <td>{{ $action.EndTime }}</td>
+                          <td>{{ $action.Name }}</td>
+                          <td>{{ $job.User }} </td>
+                          <td>{{ $action.ErrorMessage }}</td>
+                        </tr>
+                        {{ end }}
+              </table>
+            </div>
+          </div>
+          {{ end }}
         </div>
       </div>
 
