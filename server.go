@@ -21,6 +21,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", IndexHandler)
+	r.HandleFunc("/search", SearchHandler)
 	r.HandleFunc("/flow/{name}", FlowHandler)
 	r.HandleFunc("/all_logs/{id}", LogHandler)
 	r.HandleFunc("/oauth_callback", OauthCallbackHandler)
