@@ -1,5 +1,16 @@
 package main
 
+type OozieBundle struct {
+	Status       string       `json:"status"`
+	Name         string       `json:"bundlejobname"`
+	Id           string       `json:"bundlejobid"`
+	Coordinators []OozieCoord `string:"coordinator"`
+}
+
+type OozieCoord struct {
+	Name string `xml:"attr,name"`
+}
+
 type OozieAction struct {
 	Id           string `json:"id"`
 	ExternalId   string `json:"externalid"`
@@ -25,10 +36,6 @@ type OozieJob struct {
 	Actions      []OozieAction `json:"actions"`
 	ErrorMessage string        `json:"errormessage"`
 	User         string        `json:"user"`
-}
-
-func (action *OozieAction) HUELink() string {
-	return "asdf"
 }
 
 func (job *OozieJob) Errors() []OozieAction {

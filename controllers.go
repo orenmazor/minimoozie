@@ -1,5 +1,6 @@
 package main
 
+import "strings"
 import "html/template"
 import "fmt"
 import "net/http"
@@ -12,18 +13,21 @@ func SearchHandler(response http.ResponseWriter, request *http.Request) {
 		type SearchPage struct {
 			Title string
 			Conf  Config
-			Jobs  []OozieJob
+			Jobs  []string
 		}
 
 		query := request.PostFormValue("query")
 
 		response.Header().Set("Content-type", "text/html")
-		var matching_jobs []OozieJob
+		var matching_jobs []string
 		//oh god don't look at me IM UGLY
 		for _, bundle := range RunningBundles() {
 			log.Info(fmt.Sprintf("searching through %s for jobs matching %s", bundle.Name, query))
-			for _, job := range bundle.AvailableJobs() {
-				matching_jobs = append(matching_jobs, job)
+			for _, coord := range FlowDefinition(bundle.Id).Coordinators {
+				if strings.Contains(coord.Name, query) {
+					log.Info(coord.Name)
+					matching_jobs = append(matching_jobs, coord.Name)
+				}
 			}
 		}
 		context := SearchPage{Conf: *Conf, Title: query, Jobs: matching_jobs}

@@ -12,12 +12,6 @@ type OozieResultSet struct {
 	Bundles   []OozieBundle `json:"bundlejobs"`
 }
 
-type OozieBundle struct {
-	Status string `json:"status"`
-	Name   string `json:"bundlejobname"`
-	Id     string `json:"bundlejobid"`
-}
-
 type Edge struct {
 	To string `xml:"to,attr"`
 }
@@ -30,8 +24,9 @@ type Node struct {
 }
 
 type JobDefinition struct {
-	Start   Node   `xml:"start"`
-	Actions []Node `xml:"action"`
+	Start        Node   `xml:"start"`
+	Actions      []Node `xml:"action"`
+	Coordinators []Node `xml:"coordinator"`
 }
 
 func RunningJobs() []OozieJob {
@@ -110,9 +105,6 @@ func RunningBundles() []OozieBundle {
 	}
 
 	return runningBundles
-}
-
-func getDefinition(jobId string) JobDefinition {
 }
 
 func getJobs(filter string) []OozieJob {
