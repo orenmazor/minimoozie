@@ -13,20 +13,18 @@ func SearchHandler(response http.ResponseWriter, request *http.Request) {
 		type SearchPage struct {
 			Title string
 			Conf  Config
-			Jobs  []string
+			Jobs  []OozieJob
 		}
 
 		query := strings.ToLower(request.PostFormValue("query"))
 
 		response.Header().Set("Content-type", "text/html")
-		var matching_jobs []string
+		var matching_jobs []OozieJob
 		//oh god don't look at me IM UGLY
 		for _, bundle := range RunningBundles() {
-			log.Info(fmt.Sprintf("searching through %s for jobs matching %s", bundle.Name, query))
 			for _, coord := range FlowDefinition(bundle.Id).Coordinators {
 				if strings.Contains(strings.ToLower(coord.Name), query) {
-					log.Info(coord.Name)
-					matching_jobs = append(matching_jobs, coord.Name)
+					matching_jobs = append(matching_jobs, OozieJob{Name: coord.Name, Bundle: bundle.Name})
 				}
 			}
 		}

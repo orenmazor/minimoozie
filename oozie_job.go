@@ -26,7 +26,8 @@ type OozieAction struct {
 }
 
 type OozieJob struct {
-	Coordinator  string        `json:"parentId"`
+	Coordinator  string `json:"parentId"`
+	Bundle       string
 	Name         string        `json:"appName"`
 	Id           string        `json:"id"`
 	Status       string        `json:"status"`

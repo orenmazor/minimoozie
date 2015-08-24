@@ -52,11 +52,13 @@
           {{ if .Jobs }}
               <table class="table">
                 <tr>
+                  <th>Bundle</th>
                   <th>Name</th>
                 </tr>
                 {{ range $index, $job := .Jobs }}
                 <tr>
-                  <td><a href="/flow/{{$job}}">{{ $job }}</a></td>
+                  <td>{{ $job.Bundle }}</td>
+                  <td><a href="/flow/{{$job.Name}}">{{ $job.Name }}</a></td>
                 </tr>
                 {{ end }}
               </table>
