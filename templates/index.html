@@ -74,35 +74,41 @@
           <h3 class="panel-title">Recently Failed</h3>
         </div>
         <div class="panel-body">
-          {{ range $index, $job := .Jobs.failed }}
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <h3 class="panel-title"><a href="/flow/{{ $job.Name }}">{{ $job.Name }}</a><span class="pull-right">Failed at: {{ $job.EndTime }}</span></h3>
-            </div>
-            <div class="panel-body">
+          <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Started At</th>
+              <th>Failed At</th>
+              <th>Name</th>
+              <th>Errors</th>
+            </tr>
+            {{ range $index, $job := .Jobs.failed }}
+            <tr>
+              <td>{{ $index }} </td>
+              <td>{{ $job.StartTime }}</td>
+              <td>{{ $job.EndTime }}</td>
+                          <td><a href="/flow/{{$job.Name}}">{{$job.Name}}</a></td>
+              <td>
               <table class="table">
                 <tr>
-                  <th class="col-sm-2">Time</th>
                   <th class="col-sm-2">Action Name</th>
-                  <th class="col-sm-2">Submitted</th>
                   <th class="col-sm-6">Error Message</th>
                 </tr>
                     {{ range $index, $action := $job.Errors }} 
                         <tr>
-                          <td>{{ $action.EndTime }}</td>
                           {{ if eq $action.Type "sub-workflow" }}
                               <td><a href="https://{{ $conf.HueURL }}/oozie/list_oozie_workflow/{{ $action.ExternalId }}">{{ $action.Name }}</a></td>
                           {{ else }}
                               <td><a href="https://{{ $conf.HueURL }}/jobbrowser/jobs/{{ $action.ExternalId }}/job_attempt_logs/0">{{ $action.Name }}</a></td>
                           {{ end }}
-                          <td>{{ $job.User }} </td>
-                          <td>{{ $action.ErrorMessage }}</td>
+                          <td><a href="/all_logs/{{$job.Id}}">{{ $action.ErrorMessage }}</a></td>
                         </tr>
                         {{ end }}
               </table>
-            </div>
-          </div>
-          {{ end }}
+            </td>
+            </tr>
+            {{ end }}
+          </table>
         </div>
       </div>
 
