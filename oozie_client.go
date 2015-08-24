@@ -87,7 +87,7 @@ func FindJobById(flowId string) OozieJob {
 
 func RunningBundles() []OozieBundle {
 	oozieURL := Conf.OozieURL
-	fullURL := fmt.Sprintf("%s/oozie/v1/jobs?jobtype=bundle", oozieURL)
+	fullURL := fmt.Sprintf("%s/oozie/v1/jobs?jobtype=bundle&len=1000", oozieURL)
 	resp, err := http.Get(fullURL)
 	check(err)
 	defer resp.Body.Close()

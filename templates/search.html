@@ -44,14 +44,28 @@
 			</nav>
 
 
-      {{ range $index, $bundle := .Bundles }}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{{ $bundle.Name }}</h3>
-          </div>
-          <div class="panel-body">
-          </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Results</h3>
+        </div>
+        <div class="panel-body">
+          {{ if .Jobs }}
+              <table class="table">
+                <tr>
+                  <th>Name</th>
+                </tr>
+                {{ range $index, $job := .Jobs }}
+                <tr>
+                  <td><a href="/flow/{{$job}}">{{ $job }}</a></td>
+                </tr>
+                {{ end }}
+              </table>
+      {{ else }}
+      You get nothing. NOTHING.
+
           {{ end }}
+        </div>
+      </div>
       </div>
 		</div>
 	</div>
