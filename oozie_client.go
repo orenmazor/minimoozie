@@ -29,7 +29,7 @@ type Node struct {
 	Error Edge   `xml:"error"`
 }
 
-type WorkflowDAG struct {
+type JobDefinition struct {
 	Start   Node   `xml:"start"`
 	Actions []Node `xml:"action"`
 }
@@ -56,7 +56,7 @@ func FlowHistory(flowName string) []OozieJob {
 	return getJobs(fmt.Sprintf("name%%3D%s", flowName))
 }
 
-func FlowDefinition(flowId string) WorkflowDAG {
+func FlowDefinition(flowId string) JobDefinition {
 	oozieURL := Conf.OozieURL
 	fullURL := fmt.Sprintf("%s/oozie/v1/job/%s?show=definition", oozieURL, flowId)
 	log.Info(fullURL)
@@ -67,7 +67,7 @@ func FlowDefinition(flowId string) WorkflowDAG {
 	body, err := ioutil.ReadAll(resp.Body)
 	check(err)
 
-	var dag WorkflowDAG
+	var dag JobDefinition
 	err = xml.Unmarshal(body, &dag)
 	check(err)
 

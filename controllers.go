@@ -38,7 +38,7 @@ func FlowHandler(response http.ResponseWriter, request *http.Request) {
 		type FlowPage struct {
 			Title string
 			Flows []OozieJob
-			Dag   WorkflowDAG
+			Dag   JobDefinition
 			Conf  Config
 		}
 
