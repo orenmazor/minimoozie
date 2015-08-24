@@ -7,8 +7,15 @@ import "encoding/json"
 import "encoding/xml"
 
 type OozieResultSet struct {
-	Total     int        `json:"total"`
-	Workflows []OozieJob `json:"workflows"`
+	Total     int           `json:"total"`
+	Workflows []OozieJob    `json:"workflows"`
+	Bundles   []OozieBundle `json:"bundlejobs"`
+}
+
+type OozieBundle struct {
+	Status string `json:"status"`
+	Name   string `json:"bundlejobname"`
+	Id     string `json:"bundlejobid"`
 }
 
 type Edge struct {
@@ -81,6 +88,31 @@ func FindJobById(flowId string) OozieJob {
 
 	return *result
 
+}
+
+func RunningBundles() []OozieBundle {
+	oozieURL := Conf.OozieURL
+	fullURL := fmt.Sprintf("%s/oozie/v1/jobs?jobtype=bundle", oozieURL)
+	resp, err := http.Get(fullURL)
+	check(err)
+	defer resp.Body.Close()
+
+	results := new(OozieResultSet)
+	err = json.NewDecoder(resp.Body).Decode(results)
+	check(err)
+
+	var runningBundles []OozieBundle
+
+	for _, bundle := range results.Bundles {
+		if bundle.Status == "RUNNING" {
+			runningBundles = append(runningBundles, bundle)
+		}
+	}
+
+	return runningBundles
+}
+
+func getDefinition(jobId string) JobDefinition {
 }
 
 func getJobs(filter string) []OozieJob {
